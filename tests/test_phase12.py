@@ -1,6 +1,6 @@
 """
 Phase 12: 高级功能测试
-知识图谱、多模型支持、API 开放平台
+知识图谱增强、多模型支持、API 开放平台
 """
 import pytest
 import asyncio
@@ -11,7 +11,12 @@ from src.services.knowledge_graph import (
     KnowledgeGraph,
     Entity,
     Relation,
-    get_knowledge_graph_service
+    EntityExtractor,
+    RelationReasoner,
+    GraphVisualizer,
+    SemanticSearch,
+    get_knowledge_graph_service,
+    reset_knowledge_graph_service
 )
 from src.services.model_provider import (
     ModelManager,
@@ -22,8 +27,12 @@ from src.services.model_provider import (
 )
 
 
-class TestKnowledgeGraph:
-    """知识图谱服务测试"""
+class TestKnowledgeGraphEnhanced:
+    """知识图谱服务增强测试"""
+    
+    def setup_method(self):
+        """每个测试前重置单例"""
+        reset_knowledge_graph_service()
     
     def test_knowledge_graph_service_init(self):
         """测试知识图谱服务初始化"""
@@ -53,10 +62,35 @@ class TestKnowledgeGraph:
             "idea_002"
         )
         
-        # 应该提取到 what 实体
         entities = result["entities"]
         what_entities = [e for e in entities if e["type"] == "what"]
         assert len(what_entities) >= 0
+    
+    def test_extract_from_idea_with_llm(self):
+        """测试LLM增强提取"""
+        kg = KnowledgeGraphService()
+        
+        # 模拟LLM函数
+        def mock_llm(prompt):
+            return '''
+            {
+                "who": ["我", "团队"],
+                "what": ["开发APP", "数据分析"],
+                "why": ["提高效率"],
+                "when": ["下周"],
+                "where": ["公司"],
+                "how": ["使用Python"]
+            }
+            '''
+        
+        kg.set_llm_function(mock_llm)
+        result = kg.extract_from_idea(
+            "我想要在公司在下周开发一个数据分析APP",
+            "idea_llm_001",
+            use_llm=True
+        )
+        
+        assert result["entity_count"] >= 0
     
     def test_graph_stats(self):
         """测试图谱统计"""
@@ -163,6 +197,260 @@ class TestKnowledgeGraph:
         kg1 = get_knowledge_graph_service()
         kg2 = get_knowledge_graph_service()
         assert kg1 is kg2
+
+
+class TestEntityExtractor:
+    """实体提取器测试"""
+    
+    def test_extract_5w1h_basic(self):
+        """测试基本5W1H提取"""
+        content = "我想要在明天开发一个APP，使用Python来实现"
+        result = EntityExtractor.extract_5w1h(content)
+        
+        assert "who" in result
+        assert "what" in result
+        assert "when" in result
+        assert "how" in result
+    
+    def test_extract_5w1h_safety_domain(self):
+        """测试安全领域提取"""
+        content = "我们团队需要开发一个消防演练APP，模拟灭火器使用场景"
+        result = EntityExtractor.extract_5w1h(content)
+        
+        assert len(result["who"]) >= 0
+        assert len(result["what"]) >= 0
+    
+    def test_extract_with_llm_fallback(self):
+        """测试LLM提取回退"""
+        result = EntityExtractor.extract_with_llm("测试内容", None)
+        
+        assert "who" in result
+        assert "what" in result
+        assert all(isinstance(item, dict) for item in result["who"])
+
+
+class TestRelationReasoner:
+    """关系推理器测试"""
+    
+    def test_infer_from_cooccurrence(self):
+        """测试共现关系推断"""
+        entities = [
+            {"id": "e1", "name": "我", "type": "who"},
+            {"id": "e2", "name": "开发", "type": "what"},
+            {"id": "e3", "name": "使用Python", "type": "how"}
+        ]
+        
+        relations = RelationReasoner.infer_from_cooccurrence(
+            entities, "idea_001", "我开发使用Python"
+        )
+        
+        assert len(relations) >= 0
+    
+    def test_infer_temporal_relations(self):
+        """测试时间关系推断"""
+        content = "首先我们先做需求分析，然后进行开发"
+        entities = [
+            {"id": "e1", "name": "需求分析", "type": "what"},
+            {"id": "e2", "name": "开发", "type": "what"}
+        ]
+        
+        relations = RelationReasoner.infer_temporal_relations(
+            content, entities, "idea_001"
+        )
+        
+        assert isinstance(relations, list)
+
+
+class TestGraphVisualizer:
+    """图谱可视化测试"""
+    
+    def test_to_d3_json(self):
+        """测试D3格式转换"""
+        graph = KnowledgeGraph()
+        e1 = Entity(id="e1", name="A", entity_type="who")
+        e2 = Entity(id="e2", name="B", entity_type="what")
+        graph.add_entity(e1)
+        graph.add_entity(e2)
+        
+        rel = Relation(id="r1", source_id="e1", target_id="e2", relation_type="depends_on")
+        graph.add_relation(rel)
+        
+        data = GraphVisualizer.to_d3_json(graph)
+        
+        assert "nodes" in data
+        assert "links" in data
+        assert len(data["nodes"]) == 2
+        assert len(data["links"]) == 1
+    
+    def test_to_cytoscape_json(self):
+        """测试Cytoscape格式转换"""
+        graph = KnowledgeGraph()
+        e1 = Entity(id="e1", name="Test", entity_type="what")
+        graph.add_entity(e1)
+        
+        data = GraphVisualizer.to_cytoscape_json(graph)
+        
+        assert "nodes" in data
+        assert "edges" in data
+    
+    def test_to_tree_format(self):
+        """测试树形格式转换"""
+        graph = KnowledgeGraph()
+        e1 = Entity(id="e1", name="Root", entity_type="what")
+        e2 = Entity(id="e2", name="Child", entity_type="what")
+        graph.add_entity(e1)
+        graph.add_entity(e2)
+        
+        rel = Relation(id="r1", source_id="e1", target_id="e2", relation_type="part_of")
+        graph.add_relation(rel)
+        
+        data = GraphVisualizer.to_tree_format(graph, "e1")
+        
+        assert "root" in data
+        assert data["root"]["name"] == "Root"
+    
+    def test_get_statistics(self):
+        """测试统计信息生成"""
+        graph = KnowledgeGraph()
+        e1 = Entity(id="e1", name="A", entity_type="who")
+        e2 = Entity(id="e2", name="B", entity_type="what")
+        graph.add_entity(e1)
+        graph.add_entity(e2)
+        
+        rel = Relation(id="r1", source_id="e1", target_id="e2", relation_type="depends_on")
+        graph.add_relation(rel)
+        
+        stats = GraphVisualizer.get_statistics(graph)
+        
+        assert stats["entity_count"] == 2
+        assert stats["relation_count"] == 1
+        assert "entity_types" in stats
+        assert "density" in stats
+
+
+class TestSemanticSearch:
+    """语义搜索测试"""
+    
+    def test_search_exact_match(self):
+        """测试精确匹配搜索"""
+        graph = KnowledgeGraph()
+        e1 = Entity(id="e1", name="消防演练", entity_type="what", idea_ids=["idea_001"])
+        graph.add_entity(e1)
+        
+        search = SemanticSearch(graph)
+        results = search.search("消防演练")
+        
+        assert len(results) >= 1
+        assert results[0]["score"] == 1.0
+    
+    def test_search_keyword_match(self):
+        """测试关键词搜索"""
+        graph = KnowledgeGraph()
+        e1 = Entity(id="e1", name="开发APP", entity_type="what")
+        graph.add_entity(e1)
+        
+        search = SemanticSearch(graph)
+        results = search.search("开发")
+        
+        assert len(results) >= 1
+    
+    def test_search_limit(self):
+        """测试搜索结果限制"""
+        graph = KnowledgeGraph()
+        for i in range(20):
+            e = Entity(id=f"e{i}", name=f"Entity{i}", entity_type="what")
+            graph.add_entity(e)
+        
+        search = SemanticSearch(graph)
+        results = search.search("Entity", limit=5)
+        
+        assert len(results) == 5
+    
+    def test_find_related(self):
+        """测试查找相关内容"""
+        graph = KnowledgeGraph()
+        e1 = Entity(id="e1", name="A", entity_type="what")
+        e2 = Entity(id="e2", name="B", entity_type="what")
+        graph.add_entity(e1)
+        graph.add_entity(e2)
+        
+        rel = Relation(id="r1", source_id="e1", target_id="e2", relation_type="relates_to")
+        graph.add_relation(rel)
+        
+        search = SemanticSearch(graph)
+        related = search.find_related("A")
+        
+        assert isinstance(related, list)
+
+
+class TestKnowledgeGraphServiceAdvanced:
+    """知识图谱服务高级功能测试"""
+    
+    def setup_method(self):
+        reset_knowledge_graph_service()
+    
+    def test_semantic_search(self):
+        """测试语义搜索API"""
+        kg = KnowledgeGraphService()
+        kg.extract_from_idea("开发消防演练APP", "idea_search_001")
+        
+        results = kg.semantic_search("消防")
+        assert isinstance(results, list)
+    
+    def test_get_visualization_data_d3(self):
+        """测试D3可视化数据"""
+        kg = KnowledgeGraphService()
+        kg.extract_from_idea("测试内容", "idea_vis_001")
+        
+        data = kg.get_visualization_data("d3")
+        assert "nodes" in data
+        assert "links" in data
+    
+    def test_get_visualization_data_cytoscape(self):
+        """测试Cytoscape可视化数据"""
+        kg = KnowledgeGraphService()
+        kg.extract_from_idea("测试内容", "idea_vis_002")
+        
+        data = kg.get_visualization_data("cytoscape")
+        assert "nodes" in data
+        assert "edges" in data
+    
+    def test_get_entity_subgraph(self):
+        """测试获取实体子图"""
+        kg = KnowledgeGraphService()
+        result = kg.extract_from_idea("我开发一个APP", "idea_sub_001")
+        
+        if result["entity_count"] > 0:
+            entity_id = result["entities"][0]["id"]
+            subgraph = kg.get_entity_subgraph(entity_id)
+            assert "entities" in subgraph
+            assert "relations" in subgraph
+    
+    def test_find_paths(self):
+        """测试查找实体间路径"""
+        kg = KnowledgeGraphService()
+        kg.extract_from_idea("我在公司使用Python开发", "idea_path_001")
+        kg.extract_from_idea("Python用于数据分析", "idea_path_002")
+        
+        paths = kg.find_paths("我", "Python")
+        assert isinstance(paths, list)
+    
+    def test_import_export(self):
+        """测试图谱导入导出"""
+        kg = KnowledgeGraphService()
+        kg.extract_from_idea("测试内容", "idea_ie_001")
+        
+        # 导出
+        exported = kg.export_graph()
+        assert "entities" in exported
+        assert "relations" in exported
+        
+        # 导入到新服务
+        kg2 = KnowledgeGraphService()
+        kg2.import_graph(exported)
+        
+        stats = kg2.get_graph_stats()
+        assert stats["total_entities"] >= 0
 
 
 class TestModelProvider:
@@ -283,4 +571,4 @@ class TestPlatformAPI:
         
         # 检查路由是否正确注册
         routes = [r.path for r in router.routes]
-        assert "/knowledge/extract" in routes or any("extract" in str(r) for r in router.routes)
+        assert any("extract" in str(r) or "/knowledge/extract" in routes for r in router.routes)

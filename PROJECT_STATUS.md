@@ -150,10 +150,29 @@ po-agent/
 - [x] Web 服务器 (web_server.py)
 - [x] 健康检查 API
 
-### Phase 12: 高级功能 (待开发)
-- [ ] 知识图谱集成
-- [ ] 多模型支持
-- [ ] API 开放平台
+### Phase 12: 知识图谱增强 ✅ 已完成
+- [x] **实体提取增强** (knowledge_graph.py - 850行)
+  - 5W1H关键词模式识别
+  - LLM自动实体提取接口
+  - 安全领域特殊模式 (消防/危化)
+- [x] **关系推理引擎** (RelationReasoner)
+  - 基于共现推断关系
+  - 时间顺序关系推断
+  - 语义关系发现
+- [x] **图谱可视化** (GraphVisualizer)
+  - D3.js 格式导出
+  - Cytoscape.js 格式导出
+  - 树形结构 (思维导图)
+- [x] **语义搜索** (SemanticSearch)
+  - 精确/模糊匹配
+  - 类型筛选
+  - 关联发现
+- [x] **API端点扩展** (platform.py)
+  - /knowledge/search - 语义搜索
+  - /knowledge/visualization/{format} - 可视化数据
+  - /knowledge/subgraph/{entity_id} - 子图查询
+  - /knowledge/paths - 路径查找
+  - /knowledge/import/export - 图谱导入导出
 
 ### Phase 13: 记忆增强及高级功能 ✅ 已完成
 - [x] **记忆增强服务** (memory_service.py - 480行)

@@ -1,7 +1,7 @@
 """
 知识图谱 & API 开放平台路由 - Phase 12
 """
-from fastapi import APIRouter, HTTPException, Depends, Query, Header
+from fastapi import APIRouter, HTTPException, Depends, Query, Header, Path
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 from datetime import datetime
@@ -338,6 +338,128 @@ def revoke_api_key(
             return {"success": True, "message": f"Key {key_prefix}*** revoked"}
     
     raise HTTPException(status_code=404, detail="Key not found")
+
+
+# ==================== 语义搜索 & 可视化 ====================
+
+@router.get("/knowledge/search")
+def search_graph(
+    query: str = Query(..., description="搜索查询"),
+    limit: int = Query(10, description="结果数量限制"),
+    api_key: Dict[str, Any] = Depends(get_api_key)
+) -> Dict[str, Any]:
+    """语义搜索知识图谱"""
+    kg_service = get_knowledge_graph_service()
+    results = kg_service.semantic_search(query, limit)
+    
+    return {
+        "success": True,
+        "query": query,
+        "results": [
+            {
+                "entity": r["entity"].to_dict(),
+                "score": r["score"],
+                "match_type": r["match_type"]
+            }
+            for r in results
+        ],
+        "count": len(results)
+    }
+
+
+@router.get("/knowledge/visualization/{format}")
+def get_visualization(
+    format: str = Path(..., description="可视化格式: d3, cytoscape, tree"),
+    focus_entity_id: Optional[str] = Query(None, description="焦点实体ID"),
+    api_key: Dict[str, Any] = Depends(get_api_key)
+) -> Dict[str, Any]:
+    """获取可视化数据"""
+    valid_formats = ["d3", "cytoscape", "tree", "json"]
+    if format not in valid_formats:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"Invalid format. Supported: {valid_formats}"
+        )
+    
+    kg_service = get_knowledge_graph_service()
+    data = kg_service.get_visualization_data(format, focus_entity_id)
+    
+    return {
+        "success": True,
+        "format": format,
+        "data": data
+    }
+
+
+@router.get("/knowledge/subgraph/{entity_id}")
+def get_entity_subgraph(
+    entity_id: str,
+    depth: int = Query(2, description="探索深度"),
+    api_key: Dict[str, Any] = Depends(get_api_key)
+) -> Dict[str, Any]:
+    """获取实体子图"""
+    kg_service = get_knowledge_graph_service()
+    subgraph = kg_service.get_entity_subgraph(entity_id, depth)
+    
+    return {
+        "success": True,
+        "entity_id": entity_id,
+        "depth": depth,
+        "subgraph": subgraph
+    }
+
+
+@router.get("/knowledge/paths")
+def find_entity_paths(
+    entity1: str = Query(..., description="实体1名称"),
+    entity2: str = Query(..., description="实体2名称"),
+    api_key: Dict[str, Any] = Depends(get_api_key)
+) -> Dict[str, Any]:
+    """查找两个实体之间的路径"""
+    kg_service = get_knowledge_graph_service()
+    paths = kg_service.find_paths(entity1, entity2)
+    
+    return {
+        "success": True,
+        "entity1": entity1,
+        "entity2": entity2,
+        "paths": paths,
+        "count": len(paths)
+    }
+
+
+# ==================== 图谱导入导出 ====================
+
+@router.post("/knowledge/import")
+def import_graph(
+    graph_data: Dict[str, Any],
+    api_key: Dict[str, Any] = Depends(get_api_key)
+) -> Dict[str, Any]:
+    """导入知识图谱"""
+    if "write" not in api_key.get("permissions", []) and "all" not in api_key.get("permissions", []):
+        raise HTTPException(status_code=403, detail="Permission denied")
+    
+    kg_service = get_knowledge_graph_service()
+    kg_service.import_graph(graph_data)
+    
+    stats = kg_service.get_graph_stats()
+    return {
+        "success": True,
+        "message": "Graph imported successfully",
+        "stats": stats
+    }
+
+
+@router.get("/knowledge/export")
+def export_graph(
+    api_key: Dict[str, Any] = Depends(get_api_key)
+) -> Dict[str, Any]:
+    """导出完整知识图谱"""
+    kg_service = get_knowledge_graph_service()
+    return {
+        "success": True,
+        "data": kg_service.export_graph()
+    }
 
 
 # ==================== 平台信息 ====================
