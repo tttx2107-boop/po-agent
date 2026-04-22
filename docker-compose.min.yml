@@ -1,0 +1,16 @@
+# Docker Compose 配置 - 最小化部署
+version: '3.8'
+
+services:
+  po-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: po-agent
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PYTHON_ENV=production

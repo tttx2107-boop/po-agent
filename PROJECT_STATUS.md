@@ -14,9 +14,9 @@
 
 | 指标 | 数值 |
 |------|------|
-| Python 文件 | 68 |
-| 总代码行数 | ~15,020 |
-| 测试数量 | 230+ |
+| Python 文件 | 73 |
+| 总代码行数 | ~16,800 |
+| 测试数量 | 255+ |
 | 测试通过率 | 99%+ |
 
 ---
@@ -83,12 +83,19 @@ po-agent/
 │   │   └── ...
 │   ├── routers/
 │   │   ├── __init__.py
-│   │   └── risk_warning.py      # 风险预警API
+│   │   ├── ideas.py             # 想法 API
+│   │   ├── tasks.py             # 任务 API
+│   │   └── risk_warning.py      # 风险预警 API
 │   ├── services/
 │   │   ├── __init__.py
 │   │   ├── dual_mode_router.py  # 双模式路由 ⭐
 │   │   ├── prompt_library.py    # Prompt模板 ⭐
 │   │   ├── feedback_system.py   # 反馈系统 ⭐
+│   │   ├── memory_service.py    # 记忆增强 ⭐ Phase 13
+│   │   ├── token_monitor.py     # Token监控 ⭐ Phase 13
+│   │   ├── content_fetcher.py   # 内容抓取 ⭐ Phase 13
+│   │   ├── browser_automation.py # 浏览器自动化 ⭐ Phase 13
+│   │   ├── multimodal.py       # 多模态服务 ⭐ Phase 13
 │   │   ├── risk_warning.py      # 风险预警
 │   │   ├── relation_analyzer.py # 关联分析
 │   │   ├── review_service.py    # 复盘服务
@@ -96,7 +103,8 @@ po-agent/
 │   │   ├── task_breaker.py      # 任务拆解
 │   │   ├── error_handler.py     # 错误处理
 │   │   ├── quick_assessment.py  # 快速评估
-│   │   └── deep_assessment.py   # 深度评估
+│   │   ├── deep_assessment.py   # 深度评估
+│   │   └── knowledge_graph.py   # 知识图谱
 │   └── po_agent.py              # 主入口
 ├── tests/
 │   ├── conftest.py
@@ -109,7 +117,11 @@ po-agent/
 │   ├── test_reminder_service.py
 │   ├── test_assessment.py
 │   ├── test_error_handler.py
-│   └── test_advanced_features.py
+│   ├── test_advanced_features.py
+│   └── test_phase13.py          # Phase 13 测试 ⭐
+├── Dockerfile                   # Docker 部署 ⭐ Phase 13
+├── docker-compose.yml           # 完整开发环境 ⭐ Phase 13
+├── docker-compose.min.yml       # 最小化部署 ⭐ Phase 13
 ├── main.py                      # Web服务入口
 ├── cli.py                       # 命令行工具
 ├── run_cron.py                  # Cron任务
@@ -142,6 +154,31 @@ po-agent/
 - [ ] 知识图谱集成
 - [ ] 多模型支持
 - [ ] API 开放平台
+
+### Phase 13: 记忆增强及高级功能 ✅ 已完成
+- [x] **记忆增强服务** (memory_service.py - 480行)
+  - SQLite + FTS5 全文搜索
+  - 语义检索、上下文关联
+  - 遗忘机制、记忆强化
+- [x] **Token 监控服务** (token_monitor.py - 410行)
+  - API 使用追踪、成本计算
+  - 预算告警、统计分析
+  - 模型效率排名
+- [x] **内容抓取服务** (content_fetcher.py - 420行)
+  - Jina Reader / 直接请求
+  - 智能解析、内容清洗
+  - 批量抓取、缓存管理
+- [x] **浏览器自动化服务** (browser_automation.py - 480行)
+  - Playwright 封装
+  - 元素交互、截图、PDF导出
+  - 同步/异步接口
+- [x] **多模态服务** (multimodal.py - 400行)
+  - TTS 语音合成
+  - ASR 语音识别
+  - 图片分析、OCR
+- [x] **Docker 部署配置**
+  - Dockerfile、docker-compose.yml
+  - 完整开发环境 / 最小化部署
 
 ---
 

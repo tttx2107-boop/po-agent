@@ -1,0 +1,49 @@
+# Docker Compose 配置 - 完整开发环境
+version: '3.8'
+
+services:
+  # 主应用
+  po-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: po-agent
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    environment:
+      - PYTHON_ENV=production
+      - LOG_LEVEL=INFO
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - po-network
+
+  # Redis (用于缓存)
+  redis:
+    image: redis:7-alpine
+    container_name: po-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - po-network
+
+networks:
+  po-network:
+    driver: bridge
+
+volumes:
+  redis-data:
