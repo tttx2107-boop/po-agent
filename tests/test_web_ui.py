@@ -22,8 +22,8 @@ class TestWebUI:
     """Web UI 测试"""
     
     def test_index_page(self, client):
-        """测试首页"""
-        response = client.get("/")
+        """测试首页（Web UI 入口）"""
+        response = client.get("/ui/")
         assert response.status_code == 200
         assert "「破」" in response.text
     
