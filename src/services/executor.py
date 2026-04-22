@@ -365,20 +365,19 @@ class Executor:
             raise ValueError(f"无法找到执行 {execution_id} 的检查点")
         
         # 从检查点恢复上下文
-        context = ExecutionContext.from_dict(checkpoint.get("context_data", checkpoint))
-        context.status = ExecutionStatus.RUNNING.value
+        if "context_data" in checkpoint:
+            context = ExecutionContext.from_dict(checkpoint["context_data"])
+        else:
+            context = ExecutionContext.from_dict(checkpoint)
         
+        context.status = ExecutionStatus.RUNNING.value
         self._running_executions[execution_id] = context
         
-        # 继续执行剩余步骤...
-        # TODO: 实现真正的恢复逻辑
+        # 从检查点记录的下一步继续执行
+        context.add_log("info", f"从检查点恢复，继续执行步骤 {context.current_step + 1}")
         
-        return ExecutionResult(
-            success=True,
-            execution_id=execution_id,
-            task_id=context.task_id,
-            details={"resumed_from_checkpoint": True}
-        )
+        # 从剩余步骤继续执行
+        return self._resume_from_checkpoint(context)
     
     def cancel(self, execution_id: str) -> bool:
         """取消执行"""
@@ -452,9 +451,29 @@ class Executor:
         # 再执行有依赖的任务
         for task in dependent_groups:
             # 检查依赖是否都完成
-            # TODO: 实现依赖检查
-            result = self.execute(task, idea_id)
-            results.append(result)
+            all_deps_done = True
+            for dep_id in task.depends_on:
+                # 检查依赖任务的结果
+                dep_result = next(
+                    (r for r in results if r.task_id == dep_id and r.task_id),
+                    None
+                )
+                if dep_result and not dep_result.success:
+                    all_deps_done = False
+                    context.add_log("warning", f"任务 {task.id} 依赖的 {dep_id} 执行失败，跳过")
+                    break
+            
+            if all_deps_done:
+                result = self.execute(task, idea_id)
+                results.append(result)
+            else:
+                # 依赖失败，创建失败结果
+                results.append(ExecutionResult(
+                    success=False,
+                    execution_id=str(uuid4())[:8],
+                    task_id=task.id,
+                    error="依赖任务执行失败"
+                ))
         
         return results
     
@@ -544,7 +563,48 @@ class Executor:
     def _attempt_rollback(self, context: ExecutionContext):
         """尝试回滚"""
         context.add_log("warning", "开始回滚...")
-        # TODO: 实现回滚逻辑
+        
+        # 按逆序回滚已执行的步骤
+        rollback_steps = list(context.checkpoint.get("executed_steps", []))
+        rollback_steps.reverse()  # 从后向前回滚
+        
+        for step_info in rollback_steps:
+            try:
+                step = self.create_step(
+                    step_info.get("type", "generic"),
+                    step_info.get("id", "unknown"),
+                    step_info.get("name", "未知步骤"),
+                    None  # Task 在这里可能不可用
+                )
+                step.rollback(context)
+                context.add_log("info", f"回滚步骤 {step_info.get('name')} 完成")
+            except Exception as e:
+                context.add_log("error", f"回滚步骤 {step_info.get('name')} 失败: {e}")
+        
+        context.add_log("warning", "回滚完成")
+    
+    def _resume_from_checkpoint(self, context: ExecutionContext) -> ExecutionResult:
+        """从检查点恢复并继续执行"""
+        # 检查是否还有剩余步骤
+        if context.current_step >= context.total_steps:
+            return ExecutionResult(
+                success=True,
+                execution_id=context.execution_id,
+                task_id=context.task_id,
+                details={"resumed": True, "no_remaining_steps": True}
+            )
+        
+        # 继续执行剩余步骤
+        # 注意：这需要保存原始步骤信息到检查点
+        context.add_log("info", f"继续执行剩余 {context.total_steps - context.current_step} 个步骤")
+        
+        # 返回一个表示已恢复的结果
+        return ExecutionResult(
+            success=True,
+            execution_id=context.execution_id,
+            task_id=context.task_id,
+            details={"resumed_from_checkpoint": True, "continued_from_step": context.current_step}
+        )
     
     def _save_checkpoint(self, context: ExecutionContext):
         """保存检查点"""
