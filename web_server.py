@@ -15,6 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.ui.web_ui import router as web_ui_router
 from src.routers.ideas import router as ideas_router
 from src.routers.tasks import router as tasks_router
+from src.routers.platform import router as platform_router
 from src.ui.terminal_ui import TerminalUI
 from src.utils.logger import setup_logger
 
@@ -44,6 +45,7 @@ def create_app() -> FastAPI:
     app.include_router(web_ui_router)
     app.include_router(ideas_router)
     app.include_router(tasks_router)
+    app.include_router(platform_router)
     
     @app.get("/api/health")
     async def health_check():
