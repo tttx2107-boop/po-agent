@@ -1,7 +1,7 @@
 # 「破」项目状态记录
 
 > 最后更新：2026-04-22
-> 当前进度：Phase 7 完成
+> 当前进度：Phase 8 完成
 
 ## 📍 项目概览
 
@@ -124,10 +124,18 @@ po-agent/
 ## 🔜 待开发功能 (Phase 8+)
 
 ### Phase 8: 执行引擎
-- [ ] 任务执行器 (executor)
-- [ ] 子任务调度
-- [ ] 并行/串行执行控制
-- [ ] 执行状态持久化
+- [x] 任务执行器 (executor.py)
+  - ExecutionContext: 执行上下文
+  - ExecutionEngine: 核心执行引擎
+  - 执行状态管理：PENDING→RUNNING→COMPLETED/FAILED
+- [x] 任务调度器 (scheduler.py)
+  - Schedule: 调度计划
+  - Scheduler: 调度器（支持单次/循环/延迟/依赖）
+- [x] 执行状态持久化 (execution_storage.py)
+  - ExecutionState: 执行状态
+  - Checkpoint: 检查点
+  - ExecutionLog: 执行日志
+- [x] 17个单元测试全部通过
 
 ### Phase 9: 用户界面
 - [x] CLI 增强 (terminal_ui.py - 彩色输出、表格、进度条)
