@@ -1,1 +1,981 @@
-[]
+[
+  {
+    "id": "c8ca045c",
+    "content": "测试想法：开发一个新的App",
+    "created_at": "2026-04-22T15:46:19.705756",
+    "updated_at": "2026-04-22T15:46:19.705756",
+    "source": "api",
+    "tags": [
+      "技术"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "技术"
+      ],
+      "completeness": 0.35,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:46:19.705738"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "121caa11",
+    "content": "消防演练App",
+    "created_at": "2026-04-22T15:46:19.717407",
+    "updated_at": "2026-04-22T15:46:19.717407",
+    "source": "api",
+    "tags": [
+      "消防"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "消防"
+      ],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:46:19.717393"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "b8ca70e4",
+    "content": "测试想法详情",
+    "created_at": "2026-04-22T15:46:19.761415",
+    "updated_at": "2026-04-22T15:46:19.761415",
+    "source": "api",
+    "tags": [],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:46:19.761401"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "e8ad7630",
+    "content": "原始内容",
+    "created_at": "2026-04-22T15:46:20.421007",
+    "updated_at": "2026-04-22T15:46:20.421007",
+    "source": "api",
+    "tags": [],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:46:20.420993"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "6ed76ee2",
+    "content": "待删除",
+    "created_at": "2026-04-22T15:46:20.678679",
+    "updated_at": "2026-04-22T15:46:20.678679",
+    "source": "api",
+    "tags": [],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:46:20.678665"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "efc32a50",
+    "content": "测试想法：开发一个新的App",
+    "created_at": "2026-04-22T15:47:01.557241",
+    "updated_at": "2026-04-22T15:47:01.557241",
+    "source": "api",
+    "tags": [
+      "技术"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "技术"
+      ],
+      "completeness": 0.35,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:47:01.557225"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "38b6100b",
+    "content": "消防演练App",
+    "created_at": "2026-04-22T15:47:01.568834",
+    "updated_at": "2026-04-22T15:47:01.568834",
+    "source": "api",
+    "tags": [
+      "消防"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "消防"
+      ],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:47:01.568814"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "212f34bb",
+    "content": "测试想法详情",
+    "created_at": "2026-04-22T15:47:01.612560",
+    "updated_at": "2026-04-22T15:47:01.612560",
+    "source": "api",
+    "tags": [],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:47:01.612546"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "7a03ef1e",
+    "content": "原始内容",
+    "created_at": "2026-04-22T15:47:01.636997",
+    "updated_at": "2026-04-22T15:47:01.636997",
+    "source": "api",
+    "tags": [],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:47:01.636984"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "e468b710",
+    "content": "待删除",
+    "created_at": "2026-04-22T15:47:02.002005",
+    "updated_at": "2026-04-22T15:47:02.002005",
+    "source": "api",
+    "tags": [],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:47:02.001992"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "d727fb11",
+    "content": "测试想法：开发一个新的App",
+    "created_at": "2026-04-22T15:47:35.342435",
+    "updated_at": "2026-04-22T15:47:35.342435",
+    "source": "api",
+    "tags": [
+      "技术"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "技术"
+      ],
+      "completeness": 0.35,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:47:35.342405"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "64c81b18",
+    "content": "消防演练App",
+    "created_at": "2026-04-22T15:47:35.354771",
+    "updated_at": "2026-04-22T15:47:35.354771",
+    "source": "api",
+    "tags": [
+      "消防"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "消防"
+      ],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:47:35.354758"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "cc8d86d0",
+    "content": "测试想法详情",
+    "created_at": "2026-04-22T15:47:35.398821",
+    "updated_at": "2026-04-22T15:47:35.398821",
+    "source": "api",
+    "tags": [],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:47:35.398808"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "1b789ca5",
+    "content": "新内容",
+    "created_at": "2026-04-22T15:47:35.425301",
+    "updated_at": "2026-04-22T15:47:35.429246",
+    "source": "api",
+    "tags": [],
+    "status": "CONFIRMED",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:47:35.425288"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "e226615d",
+    "content": "测试想法：开发一个新的App",
+    "created_at": "2026-04-22T15:47:54.369508",
+    "updated_at": "2026-04-22T15:47:54.369508",
+    "source": "api",
+    "tags": [
+      "技术"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "技术"
+      ],
+      "completeness": 0.35,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:47:54.369494"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "04c61518",
+    "content": "消防演练App",
+    "created_at": "2026-04-22T15:47:54.381505",
+    "updated_at": "2026-04-22T15:47:54.381505",
+    "source": "api",
+    "tags": [
+      "消防"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "消防"
+      ],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:47:54.381492"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "5ca4b967",
+    "content": "测试想法详情",
+    "created_at": "2026-04-22T15:47:54.438111",
+    "updated_at": "2026-04-22T15:47:54.438111",
+    "source": "api",
+    "tags": [],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:47:54.438097"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "85f82425",
+    "content": "新内容",
+    "created_at": "2026-04-22T15:47:54.463903",
+    "updated_at": "2026-04-22T15:47:54.468087",
+    "source": "api",
+    "tags": [],
+    "status": "CONFIRMED",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:47:54.463890"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "d1ea4595",
+    "content": "测试想法：开发一个新的App",
+    "created_at": "2026-04-22T15:48:33.492450",
+    "updated_at": "2026-04-22T15:48:33.492450",
+    "source": "api",
+    "tags": [
+      "技术"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "技术"
+      ],
+      "completeness": 0.35,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:48:33.492436"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "d4ad5a86",
+    "content": "消防演练App",
+    "created_at": "2026-04-22T15:48:33.504603",
+    "updated_at": "2026-04-22T15:48:33.504603",
+    "source": "api",
+    "tags": [
+      "消防",
+      "App"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "消防"
+      ],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:48:33.504589"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "edddec66",
+    "content": "测试想法详情",
+    "created_at": "2026-04-22T15:48:33.521094",
+    "updated_at": "2026-04-22T15:48:33.521094",
+    "source": "api",
+    "tags": [],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:48:33.521082"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "fcc5a294",
+    "content": "新内容",
+    "created_at": "2026-04-22T15:48:33.559230",
+    "updated_at": "2026-04-22T15:48:33.563604",
+    "source": "api",
+    "tags": [],
+    "status": "CONFIRMED",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:48:33.559217"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "e5f4ff62",
+    "content": "测试想法：开发一个新的App",
+    "created_at": "2026-04-22T15:52:28.578386",
+    "updated_at": "2026-04-22T15:52:28.578386",
+    "source": "api",
+    "tags": [
+      "技术"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "技术"
+      ],
+      "completeness": 0.35,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:52:28.578372"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "f495bacc",
+    "content": "消防演练App",
+    "created_at": "2026-04-22T15:52:28.590561",
+    "updated_at": "2026-04-22T15:52:28.590561",
+    "source": "api",
+    "tags": [
+      "App",
+      "消防"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "消防"
+      ],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:52:28.590549"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "5adc1049",
+    "content": "测试想法详情",
+    "created_at": "2026-04-22T15:52:28.604814",
+    "updated_at": "2026-04-22T15:52:28.604814",
+    "source": "api",
+    "tags": [],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:52:28.604797"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "f54ae88a",
+    "content": "新内容",
+    "created_at": "2026-04-22T15:52:28.631933",
+    "updated_at": "2026-04-22T15:52:28.636633",
+    "source": "api",
+    "tags": [],
+    "status": "CONFIRMED",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:52:28.631919"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "6af0ecd9",
+    "content": "消防演练App",
+    "created_at": "2026-04-22T15:52:35.775541",
+    "updated_at": "2026-04-22T15:52:35.775541",
+    "source": "api",
+    "tags": [
+      "消防",
+      "App"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "消防"
+      ],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:52:35.775525"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "7f910273",
+    "content": "测试想法：开发一个新的App",
+    "created_at": "2026-04-22T15:53:04.826707",
+    "updated_at": "2026-04-22T15:53:04.826707",
+    "source": "api",
+    "tags": [
+      "技术"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "技术"
+      ],
+      "completeness": 0.35,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:53:04.826691"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "8659ac3e",
+    "content": "消防演练App",
+    "created_at": "2026-04-22T15:53:04.844575",
+    "updated_at": "2026-04-22T15:53:04.844575",
+    "source": "api",
+    "tags": [
+      "App",
+      "消防"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "消防"
+      ],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:53:04.844561"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "816355f1",
+    "content": "测试想法详情",
+    "created_at": "2026-04-22T15:53:04.861208",
+    "updated_at": "2026-04-22T15:53:04.861208",
+    "source": "api",
+    "tags": [],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:53:04.861194"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "eeebbe8f",
+    "content": "新内容",
+    "created_at": "2026-04-22T15:53:04.888609",
+    "updated_at": "2026-04-22T15:53:04.893584",
+    "source": "api",
+    "tags": [],
+    "status": "CONFIRMED",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:53:04.888594"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "8e7dd0b0",
+    "content": "测试想法：开发一个新的App",
+    "created_at": "2026-04-22T15:53:29.319066",
+    "updated_at": "2026-04-22T15:53:29.319066",
+    "source": "api",
+    "tags": [
+      "技术"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "技术"
+      ],
+      "completeness": 0.35,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:53:29.319051"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "9d5eba74",
+    "content": "消防演练App",
+    "created_at": "2026-04-22T15:53:29.332242",
+    "updated_at": "2026-04-22T15:53:29.332242",
+    "source": "api",
+    "tags": [
+      "消防",
+      "App"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "消防"
+      ],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:53:29.332230"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "c78c8a82",
+    "content": "测试想法详情",
+    "created_at": "2026-04-22T15:53:29.348377",
+    "updated_at": "2026-04-22T15:53:29.348377",
+    "source": "api",
+    "tags": [],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:53:29.348365"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "a3c69790",
+    "content": "新内容",
+    "created_at": "2026-04-22T15:53:29.374744",
+    "updated_at": "2026-04-22T15:53:29.379857",
+    "source": "api",
+    "tags": [],
+    "status": "CONFIRMED",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:53:29.374731"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "308b5e1b",
+    "content": "测试想法：开发一个新的App",
+    "created_at": "2026-04-22T15:54:16.234204",
+    "updated_at": "2026-04-22T15:54:16.234204",
+    "source": "api",
+    "tags": [
+      "技术"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "技术"
+      ],
+      "completeness": 0.35,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:54:16.234190"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "bd0432a6",
+    "content": "消防演练App",
+    "created_at": "2026-04-22T15:54:16.249154",
+    "updated_at": "2026-04-22T15:54:16.249154",
+    "source": "api",
+    "tags": [
+      "App",
+      "消防"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "消防"
+      ],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:54:16.249139"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "f3ee51b1",
+    "content": "测试想法详情",
+    "created_at": "2026-04-22T15:54:16.265909",
+    "updated_at": "2026-04-22T15:54:16.265909",
+    "source": "api",
+    "tags": [],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:54:16.265896"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "9bac37a3",
+    "content": "新内容",
+    "created_at": "2026-04-22T15:54:16.298461",
+    "updated_at": "2026-04-22T15:54:16.312022",
+    "source": "api",
+    "tags": [],
+    "status": "CONFIRMED",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [],
+      "completeness": 0.0,
+      "keywords_note": "建议补充：具体目标、预期效果、所需资源等",
+      "assessment_time": "2026-04-22T15:54:16.298443"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  }
+]

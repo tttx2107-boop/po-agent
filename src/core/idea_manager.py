@@ -29,6 +29,19 @@ class IdeaManager:
         data = [idea.to_dict() for idea in self._ideas]
         return self.storage.save_ideas(data)
     
+    @property
+    def ideas(self) -> List[Idea]:
+        """获取所有想法（兼容属性）"""
+        return self._ideas
+    
+    def create_idea(self, content: str, tags: List[str] = None, source: str = "cli") -> Idea:
+        """创建想法（兼容方法）"""
+        return self.create(content=content, source=source)
+    
+    def list_ideas(self, status: str = None, tags: List[str] = None, limit: int = 50) -> List[Idea]:
+        """列出想法（兼容方法）"""
+        return self.list(status=status, tags=tags, limit=limit)
+    
     def create(self, content: str, source: str = "cli") -> Idea:
         """
         创建想法
@@ -95,6 +108,14 @@ class IdeaManager:
             if idea.id == idea_id:
                 return idea
         return None
+    
+    def get_idea(self, idea_id: str) -> Optional[Idea]:
+        """获取单个想法（API兼容别名）"""
+        return self.get(idea_id)
+    
+    def delete_idea(self, idea_id: str) -> bool:
+        """删除想法（API兼容别名）"""
+        return self.delete(idea_id)
     
     def update(self, idea_id: str, updates: Dict[str, Any]) -> Optional[Idea]:
         """更新想法"""

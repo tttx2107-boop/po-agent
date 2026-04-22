@@ -48,6 +48,8 @@ htmlcov/
 
 # Local storage
 *.db
+*.db-wal
+*.db-shm
 *.sqlite
 
 # OS

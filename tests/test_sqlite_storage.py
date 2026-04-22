@@ -405,15 +405,16 @@ class TestSQLiteStorageBackwardCompatibility:
         assert storage.__class__.__name__ == "SQLiteStorage"
     
     def test_get_storage_gist_fallback(self, monkeypatch):
-        """R4: Gist 不可用时降级"""
-        # 确保无 token
+        """R4: Gist 不可用时降级（无 token 且无 SQLite 配置时）"""
+        # 确保无 token 且无 SQLite
         monkeypatch.setenv("GITHUB_TOKEN", "")
+        monkeypatch.delenv("PO_STORAGE_TYPE", raising=False)
         
         from src.storage import get_storage
         
         storage = get_storage(token="", gist_id="dummy")
         
-        # 应该返回 LocalStorage (因为没有 token)
+        # 应该返回 LocalStorage (因为没有 token 且没有 sqlite 配置)
         assert storage.__class__.__name__ == "LocalStorage"
 
 

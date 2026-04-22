@@ -104,7 +104,7 @@ class GistStorage(BaseStorage):
         return logs[-limit:]
 
 
-def get_storage(token: str, gist_id: str, local_path: str = "data") -> BaseStorage:
+def get_storage(token: str = None, gist_id: str = None, local_path: str = "data") -> BaseStorage:
     """获取存储实例 - 优先 Gist，失败则本地"""
     if not token:
         print("⚠ 未配置 GitHub Token，使用本地存储")
