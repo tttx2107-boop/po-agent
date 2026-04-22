@@ -1,28 +1,27 @@
 # 「破」项目状态记录
 
 > 最后更新：2026-04-22
-> 当前进度：Phase 8 完成
+> 当前进度：Phase 11 完成
 
 ## 📍 项目概览
 
 **名称：** 「破」通用型想法实现智能体  
 **目标：** 让想法从"灵光一现"到"落地成真"的 AI 助理  
 **仓库：** https://github.com/tttx2107-boop/po-agent  
-**Token：** [已从文件移除，请通过 memory/记忆获取]  
 **用户名：** tttx2107-boop
 
 ## 📊 项目统计
 
 | 指标 | 数值 |
 |------|------|
-| Python 文件 | 54 |
-| 总代码行数 | ~8943 |
-| 提交总数 | 10+ |
-| 测试覆盖 | 10+ 测试文件 |
+| Python 文件 | 68 |
+| 总代码行数 | ~15,020 |
+| 测试数量 | 230+ |
+| 测试通过率 | 99%+ |
 
 ---
 
-## ✅ 已完成功能 (Phase 1-7)
+## ✅ 已完成功能 (Phase 1-11)
 
 ### Phase 1: 核心结构
 - [x] 数据模型 (models): Idea, Task, Assessment, Review
@@ -121,34 +120,25 @@ po-agent/
 
 ---
 
-## 🔜 待开发功能 (Phase 8+)
+## 🔜 待开发功能
 
-### Phase 8: 执行引擎
-- [x] 任务执行器 (executor.py)
-  - ExecutionContext: 执行上下文
-  - ExecutionEngine: 核心执行引擎
-  - 执行状态管理：PENDING→RUNNING→COMPLETED/FAILED
-- [x] 任务调度器 (scheduler.py)
-  - Schedule: 调度计划
-  - Scheduler: 调度器（支持单次/循环/延迟/依赖）
-- [x] 执行状态持久化 (execution_storage.py)
-  - ExecutionState: 执行状态
-  - Checkpoint: 检查点
-  - ExecutionLog: 执行日志
-- [x] 17个单元测试全部通过
+### Phase 10: 持久化存储 ✅ 已完成
+- [x] SQLite 存储层 (sqlite_storage.py - 759行)
+  - ideas/tasks/activities 完整 CRUD
+  - 索引和查询优化
+  - WAL 模式支持多进程
+- [x] 三种存储自动切换 (Local/Gist/SQLite)
 
-### Phase 9: 用户界面
-- [x] CLI 增强 (terminal_ui.py - 彩色输出、表格、进度条)
-- [x] Web UI (web_ui.py - FastAPI + HTML/CSS/JS)
-- [x] WebSocket 实时通信
-- [x] Web 服务器入口 (web_server.py)
+### Phase 11: REST API + Web UI ✅ 已完成
+- [x] Ideas REST API (src/routers/ideas.py)
+  - GET/POST/PUT/DELETE /api/ideas
+  - 状态/标签筛选、分页
+  - 自动快速评估 + 标签提取
+- [x] Web UI (web_ui.py)
+- [x] Web 服务器 (web_server.py)
+- [x] 健康检查 API
 
-### Phase 10: 持久化存储
-- [ ] SQLite 集成
-- [ ] 数据迁移
-- [ ] 备份机制
-
-### Phase 11: 高级功能
+### Phase 12: 高级功能 (待开发)
 - [ ] 知识图谱集成
 - [ ] 多模型支持
 - [ ] API 开放平台
