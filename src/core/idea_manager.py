@@ -151,9 +151,24 @@ class IdeaManager:
         if not idea:
             return None
         
-        # 执行评估
+        # 执行评估 - DeepAssessmentService 返回扁平结构
         assessment_result = self.deep_assessor.assess(idea.to_dict())
-        deep_assessment = DeepAssessment(**assessment_result)
+        
+        # 构建 DeepAssessment
+        deep_assessment = DeepAssessment(
+            innovation_score=assessment_result["innovation_score"],
+            feasibility_score=assessment_result["feasibility_score"],
+            value_score=assessment_result["value_score"],
+            risk_score=assessment_result["risk_score"],
+            perspective_score=assessment_result["perspective_score"],
+            overall_score=assessment_result["overall_score"],
+            decision_level=assessment_result.get("decision_level", ""),
+            decision_action=assessment_result.get("decision_action", ""),
+            decision_reason=assessment_result.get("decision_reason", ""),
+            assessment_date=assessment_result["assessment_date"],
+            assessor=assessment_result.get("assessor", "ai"),
+            notes=""
+        )
         
         # 更新想法
         idea.deep_assessment = deep_assessment

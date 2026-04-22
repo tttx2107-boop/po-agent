@@ -25,10 +25,11 @@ class TaskManager:
         data = [task.to_dict() for task in self._tasks]
         return self.storage.save_tasks(data)
     
-    def create(self, idea_id: str, title: str, 
+    def create(self, idea_id: str, title: str,
                description: str = "",
                task_type: str = "general",
-               priority: int = 3) -> Task:
+               priority: int = 3,
+               estimated_hours: float = 1.0) -> Task:
         """创建任务"""
         now = datetime.now().isoformat()
         task = Task(
@@ -39,7 +40,8 @@ class TaskManager:
             task_type=task_type,
             priority=priority,
             created_at=now,
-            updated_at=now
+            updated_at=now,
+            estimated_hours=estimated_hours
         )
         
         self._tasks.append(task)

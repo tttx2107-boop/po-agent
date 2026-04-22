@@ -7,6 +7,7 @@ from .core.router import CommandRouter
 from .storage.gist_store import get_storage
 from .utils.config import get_config
 from .utils.logger import setup_logger
+from .services.task_breaker import TaskBreaker
 
 
 logger = setup_logger("po-agent")
@@ -25,6 +26,7 @@ class PoAgent:
         self.idea_manager = IdeaManager(self.storage)
         self.task_manager = TaskManager(self.storage)
         self.router = CommandRouter()
+        self.task_breaker = TaskBreaker()
         
         logger.info("「破」智能体初始化完成")
     
@@ -377,3 +379,45 @@ class PoAgent:
     def assess_pending(self, limit: int = 3) -> list:
         """批量评估"""
         return self.idea_manager.assess_pending(limit)
+    
+    def breakdown_idea(self, idea_id: str) -> str:
+        """
+        拆解想法为任务
+        
+        Args:
+            idea_id: 想法 ID
+            
+        Returns:
+            拆解结果报告
+        """
+        idea = self.idea_manager.get(idea_id)
+        if not idea:
+            return f"❌ 未找到想法 [{idea_id}]"
+        
+        # 执行拆解
+        result = self.task_breaker.breakdown(idea.content)
+        
+        # 创建任务
+        task_ids = []
+        for subtask in result.subtasks:
+            task = self.task_manager.create(
+                idea_id=idea_id,
+                title=subtask.title,
+                description=subtask.description,
+                task_type=subtask.task_type,
+                estimated_hours=subtask.estimated_hours,
+                priority=subtask.priority
+            )
+            task_ids.append(task.id)
+        
+        # 更新想法的任务关联
+        self.idea_manager.update(idea_id, {"tasks": task_ids})
+        
+        # 更新状态
+        self.idea_manager.update(idea_id, {"status": "IN_PROGRESS"})
+        
+        # 生成报告
+        report = result.format()
+        report += f"\n\n✅ 已拆解并创建 {len(result.subtasks)} 个任务"
+        
+        return report

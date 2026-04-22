@@ -6,41 +6,63 @@
 
 创新性和可行性都是动态的、相对的，需要定期重估。
 
-## 架构设计
+## 核心功能
 
-```
-💭 想法录入 → ⚡快速评估 → 📋 想法库 → ⏰ 深度评估 → 📱 用户确认 
-→ 🚀 执行追踪 → ⭐ 完成 → 🔄 定期复盘(循环)
-```
-
-## 技术栈
-
-- **存储**：GitHub Gist
-- **AI**：Claude/MiniMax
-- **入口**：微信
+| 功能 | 描述 |
+|------|------|
+| 💡 **想法管理** | 快速记录、自动评估、智能分类 |
+| 📊 **评估体系** | 5维度快速评估 + 4维度深度评审 |
+| 🔨 **任务拆解** | AI 自动将想法拆解为可执行任务 |
+| 📈 **进度追踪** | 任务状态、甘特图、里程碑管理 |
+| 🔔 **智能提醒** | 定时评估、进度预警、复盘提醒 |
 
 ## 快速开始
 
 ```bash
+# 安装依赖
 pip install -r requirements.txt
+
+# 配置环境变量
+cp .env.example .env
+# 编辑 .env 填入 GitHub Token
+
+# 运行
 python main.py
 ```
 
-## 项目结构
+## 项目状态
+
+| Phase | 内容 | 状态 |
+|-------|------|------|
+| Phase 1 | 核心架构 + 存储层 | ✅ 完成 |
+| Phase 2 | 评估体系 + 任务管理 | ✅ 完成 |
+| Phase 3 | 测试驱动 + 质量保障 | ✅ 完成 |
+
+## 测试状态
+
+```bash
+# 运行所有测试
+pytest tests/ -v
+
+# 查看覆盖率
+pytest tests/ --cov=src --cov-report=term
+```
+
+当前测试覆盖率：**52%+**
+
+## 目录结构
 
 ```
 po-agent/
-├── storage.py           # GitHub Gist 存储
-├── quick_assessment.py   # 快速评估（分钟级）
-├── deep_assessment.py    # 深度评估（周级）
-├── main.py              # 主入口
-├── config.py            # 配置
-└── requirements.txt     # 依赖
+├── src/
+│   ├── models/          # 数据模型
+│   ├── core/            # 核心逻辑
+│   ├── services/        # 服务层
+│   ├── storage/         # 存储层
+│   └── entry/           # 入口点
+├── tests/               # 单元测试
+└── main.py              # 主入口
 ```
-
-## 设计文档
-
-详见 [DESIGN.md](DESIGN.md)
 
 ## License
 

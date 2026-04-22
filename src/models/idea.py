@@ -52,7 +52,7 @@ class Idea:
     """想法实体"""
     id: str
     content: str
-    created_at: str
+    created_at: str = field(default_factory=lambda: datetime.now().isoformat())
     updated_at: str = ""
     
     # 元信息

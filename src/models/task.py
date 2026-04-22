@@ -31,13 +31,11 @@ class Task:
     # 时间
     created_at: str = ""
     updated_at: str = ""
+    estimated_hours: float = 1.0  # 预估工时
+    actual_hours: float = 0.0  # 实际工时
     started_at: str = ""
     due_date: str = ""
     completed_at: str = ""
-    
-    # 预估
-    estimated_hours: float = 0.0
-    actual_hours: float = 0.0
     
     # 依赖
     depends_on: List[str] = field(default_factory=list)
