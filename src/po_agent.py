@@ -8,6 +8,7 @@ from .storage.gist_store import get_storage
 from .utils.config import get_config
 from .utils.logger import setup_logger
 from .services.task_breaker import TaskBreaker
+from .services.executor import get_executor
 
 
 logger = setup_logger("po-agent")
