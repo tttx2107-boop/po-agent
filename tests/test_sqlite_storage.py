@@ -213,7 +213,9 @@ class TestSQLiteStorageTasksCRUD:
         loaded = storage.load_tasks()
         
         assert len(loaded) == 2
-        assert loaded[0]["id"] == "task-001"
+        # ORDER BY updated_at DESC，最新的在前
+        assert loaded[0]["id"] == "task-002"
+        assert loaded[1]["id"] == "task-001"
         assert loaded[0]["idea_id"] == "test-001"
 
 
@@ -233,7 +235,9 @@ class TestSQLiteStorageActivities:
         loaded = storage.load_activities()
         
         assert len(loaded) == 2
-        assert loaded[0]["type"] == "idea_created"
+        # ORDER BY created_at DESC，最新的在前
+        assert loaded[0]["type"] == "assessment_completed"
+        assert loaded[1]["type"] == "idea_created"
     
     def test_load_activities_with_limit(self, tmp_path):
         """R1: 带限制加载活动"""
@@ -374,9 +378,14 @@ class TestSQLiteStorageMigration:
         
         # 验证每条数据的每个字段
         loaded_ideas = storage.load_ideas()
-        for orig, loaded in zip(SAMPLE_IDEAS, loaded_ideas):
+        
+        # 按 ID 排序后比较
+        orig_sorted = sorted(SAMPLE_IDEAS, key=lambda x: x["id"])
+        loaded_sorted = sorted(loaded_ideas, key=lambda x: x["id"])
+        
+        for orig, loaded in zip(orig_sorted, loaded_sorted):
             for key in orig:
-                assert orig[key] == loaded.get(key), f"字段 {key} 不匹配"
+                assert orig[key] == loaded.get(key), f"字段 {key} 不匹配: {orig[key]} != {loaded.get(key)}"
 
 
 class TestSQLiteStorageBackwardCompatibility:

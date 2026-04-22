@@ -81,7 +81,7 @@ class TestErrorHandler:
             elapsed_seconds=300
         )
         
-        assert "检查点" not in action.description
+        assert "重新开始" in action.description
         assert action.estimated_impact == "中"
     
     def test_error_history(self):
