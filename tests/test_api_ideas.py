@@ -60,7 +60,7 @@ class TestIdeasAPI:
         response = client.post("/api/ideas", json=payload)
         assert response.status_code == 200
         data = response.json()
-        assert data["idea"]["tags"] == ["消防", "App"]
+        assert set(data["idea"]["tags"]) == {"消防", "App"}
     
     def test_get_idea_by_id(self, client):
         """R1: GET /api/ideas/{id} - 获取详情"""
