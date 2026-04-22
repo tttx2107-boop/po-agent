@@ -130,9 +130,10 @@ po-agent/
 - [ ] 执行状态持久化
 
 ### Phase 9: 用户界面
-- [ ] CLI 增强
-- [ ] Web UI (可选)
-- [ ] 移动端支持 (可选)
+- [x] CLI 增强 (terminal_ui.py - 彩色输出、表格、进度条)
+- [x] Web UI (web_ui.py - FastAPI + HTML/CSS/JS)
+- [x] WebSocket 实时通信
+- [x] Web 服务器入口 (web_server.py)
 
 ### Phase 10: 持久化存储
 - [ ] SQLite 集成
