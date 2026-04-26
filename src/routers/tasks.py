@@ -34,6 +34,7 @@ class TaskBreakdownRequest(BaseModel):
     """任务拆解请求"""
     idea_content: str = Field(..., description="想法内容")
     idea_id: Optional[str] = Field(None, description="关联的想法ID")
+    user_profile: Optional[Dict[str, Any]] = Field(None, description="用户画像信息")
 
 
 class TaskBreakdownResponse(BaseModel):
@@ -135,9 +136,10 @@ def breakdown_idea(
     拆解想法为任务列表
     
     使用 TaskBreaker 将用户的想法智能拆解为可执行的具体任务
+    支持用户画像参数，根据用户角色和产出目标定制任务拆解
     """
     breaker = TaskBreaker()
-    result = breaker.breakdown(request.idea_content)
+    result = breaker.breakdown(request.idea_content, user_profile=request.user_profile)
     
     return TaskBreakdownResponse(
         subtasks=[t.to_dict() for t in result.subtasks],

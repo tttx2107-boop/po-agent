@@ -977,5 +977,93 @@
     "progress": 0,
     "reviews": [],
     "notes": ""
+  },
+  {
+    "id": "664da4e2",
+    "content": "通过微信传递的想法：开发一个危险化学品泄漏应急预案系统",
+    "created_at": "2026-04-22T20:28:26.503652",
+    "updated_at": "2026-04-22T20:28:26.503652",
+    "source": "wechat",
+    "tags": [
+      "危化品",
+      "应急",
+      "安全",
+      "技术"
+    ],
+    "status": "NEW",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "技术"
+      ],
+      "completeness": 0.5,
+      "keywords_note": "可以进一步完善，建议补充启动条件",
+      "assessment_time": "2026-04-22T20:28:26.503637"
+    },
+    "deep_assessment": null,
+    "tasks": [],
+    "milestone": "",
+    "progress": 0,
+    "reviews": [],
+    "notes": ""
+  },
+  {
+    "id": "b0feb16e",
+    "content": "应急指示标识作为边缘计算节点：用于室内定位的应急疏散系统，与手机结合做交互系统，室内定位与室内导航相结合",
+    "created_at": "2026-04-22T20:33:32.536764",
+    "updated_at": "2026-04-22T21:43:15.571522",
+    "source": "wechat",
+    "tags": [
+      "室内定位",
+      "边缘计算",
+      "应急疏散",
+      "导航",
+      "IoT",
+      "手机交互"
+    ],
+    "status": "IN_PROGRESS",
+    "priority": 0,
+    "quick_assessment": {
+      "intent_type": "idea",
+      "domain_tags": [
+        "技术",
+        "消防"
+      ],
+      "completeness": 0.5,
+      "keywords_note": "可以进一步完善，建议补充启动条件",
+      "assessment_time": "2026-04-22T20:33:32.536749"
+    },
+    "deep_assessment": null,
+    "tasks": [
+      {
+        "title": "室内定位技术文献调研",
+        "done": true,
+        "status": "DONE",
+        "notes": "BLE为首选方案，精度0.5-2m，成本低，手机支持好"
+      },
+      {
+        "title": "边缘计算架构设计",
+        "done": true,
+        "status": "DONE",
+        "notes": "应急指示标识=边缘节点，ESP32/Raspberry Pi"
+      },
+      {
+        "title": "应急疏散系统调研",
+        "done": true,
+        "status": "DONE",
+        "notes": "DESSN动态路径、AR疏散是前沿方向"
+      },
+      {
+        "title": "技术方案确定",
+        "done": true,
+        "status": "DONE",
+        "notes": "BLE 5.1 AoA + WiFi/LoRa + Dijkstra路径规划"
+      }
+    ],
+    "milestone": "",
+    "progress": 40,
+    "reviews": [],
+    "notes": "【文献调研结论】\n技术选型：BLE 5.1 AoA（首选）\n边缘计算：ESP32/Raspberry Pi\n通信协议：WiFi + LoRa\n核心优势：应急指示标识=边缘节点，室内定位+导航一体化\n\n可行性：中高\n关键挑战：多系统集成、可靠性验证、消防认证"
   }
 ]

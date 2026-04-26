@@ -1,4 +1,5 @@
 """三层反馈系统 - 输入层/执行层/战略层"""
+import re
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional
 from enum import Enum
@@ -248,7 +249,6 @@ class ThreeLayerFeedbackSystem:
     def _extract_keywords(self, text: str) -> set:
         """提取关键词"""
         # 简单分词：按空格和标点分割，过滤短词
-        import re
         words = re.findall(r'[\u4e00-\u9fa5a-zA-Z0-9]{2,}', text.lower())
         # 去除常见停用词
         stopwords = {"的", "了", "在", "是", "和", "与", "或", "等", "这个", "一个", "我", "想", "做"}

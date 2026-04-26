@@ -1,4 +1,5 @@
 """风险预警服务 - Risk Warning Service"""
+import re
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional
 from datetime import datetime, timedelta
@@ -222,7 +223,6 @@ class RiskWarningService:
         
         # 2. 基于模式匹配
         for pattern, risk_type, level, reason in self.RISK_PATTERNS:
-            import re
             if re.search(pattern, idea_content):
                 # 检查是否已有同类风险
                 existing = [r for r in risks if r.risk_type == risk_type]

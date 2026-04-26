@@ -14,9 +14,9 @@
 
 | 指标 | 数值 |
 |------|------|
-| Python 文件 | 73 |
-| 总代码行数 | ~16,800 |
-| 测试数量 | 255+ |
+| Python 文件 | 74 |
+| 总代码行数 | ~21,500 |
+| 测试数量 | 285+ |
 | 测试通过率 | 99%+ |
 
 ---
@@ -96,6 +96,7 @@ po-agent/
 │   │   ├── content_fetcher.py   # 内容抓取 ⭐ Phase 13
 │   │   ├── browser_automation.py # 浏览器自动化 ⭐ Phase 13
 │   │   ├── multimodal.py       # 多模态服务 ⭐ Phase 13
+│   │   ├── literature_research.py # 文献调研 ⭐ Phase 14
 │   │   ├── risk_warning.py      # 风险预警
 │   │   ├── relation_analyzer.py # 关联分析
 │   │   ├── review_service.py    # 复盘服务
@@ -118,7 +119,8 @@ po-agent/
 │   ├── test_assessment.py
 │   ├── test_error_handler.py
 │   ├── test_advanced_features.py
-│   └── test_phase13.py          # Phase 13 测试 ⭐
+│   ├── test_phase13.py          # Phase 13 测试 ⭐
+│   └── test_literature_research.py # Phase 14 测试 ⭐
 ├── Dockerfile                   # Docker 部署 ⭐ Phase 13
 ├── docker-compose.yml           # 完整开发环境 ⭐ Phase 13
 ├── docker-compose.min.yml       # 最小化部署 ⭐ Phase 13
@@ -198,6 +200,33 @@ po-agent/
 - [x] **Docker 部署配置**
   - Dockerfile、docker-compose.yml
   - 完整开发环境 / 最小化部署
+
+### Phase 14: 文献调研模块 ✅ 已完成
+- [x] **文献调研服务** (literature_research.py - 950行)
+  - `Paper` / `ResearchTask` / `LiteratureSource` 数据模型
+  - `BaseLiteratureSource` 抽象基类
+  - `LiteratureSourceRegistry` 文献源注册表
+  - `LiteratureResearchService` 调研服务核心
+- [x] **内置文献源**
+  - **Semantic Scholar**: 覆盖全学科，免费API
+  - **arXiv**: 物理/计算机/AI预印本
+  - **PubMed**: 生物医学文献
+  - **Custom API**: 用户自定义文献源
+- [x] **文献源管理 API**
+  - `GET/POST /api/literature/sources` - 列出/注册文献源
+  - `DELETE /api/literature/sources/{id}` - 取消注册
+  - `PUT /api/literature/sources/{id}/toggle` - 启用/禁用
+- [x] **文献调研 API**
+  - `POST /api/literature/research` - 创建并执行调研
+  - `GET /api/literature/research/{id}` - 获取结果
+  - `GET /api/literature/quick-search` - 快速单源搜索
+  - `PATCH /api/literature/research/{id}/papers/{pid}` - 更新标注
+  - `GET /api/literature/research/{id}/export` - 导出(BibTeX/Markdown/JSON)
+- [x] **可信度评估**
+  - 顶会/顶刊: ⭐⭐⭐⭐⭐
+  - 高质量期刊: ⭐⭐⭐⭐
+  - 预印本: ⭐⭐⭐ (需交叉验证)
+- [x] **完整测试覆盖**: 33 个测试用例
 
 ---
 
