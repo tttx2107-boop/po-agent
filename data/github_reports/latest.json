@@ -1,0 +1,88 @@
+{
+  "timestamp": "2026-04-26T14:57:27.888235",
+  "total_discovered": 158,
+  "trending_count": 0,
+  "keyword_count": 158,
+  "high_score_projects": [
+    {
+      "full_name": "sindresorhus/awesome",
+      "stars": 459052,
+      "quality_score": 10.0,
+      "relevance_score": 0.0,
+      "suggestion": "💡 强烈推荐集成 | 📖 可学习其设计模式 | 🔧 社区活跃，易于定制",
+      "url": "https://github.com/sindresorhus/awesome"
+    },
+    {
+      "full_name": "public-apis/public-apis",
+      "stars": 426531,
+      "quality_score": 10.0,
+      "relevance_score": 0.0,
+      "suggestion": "💡 强烈推荐集成 | 📖 可学习其设计模式 | 🔧 社区活跃，易于定制",
+      "url": "https://github.com/public-apis/public-apis"
+    },
+    {
+      "full_name": "openclaw/openclaw",
+      "stars": 364039,
+      "quality_score": 10.0,
+      "relevance_score": 1.5,
+      "suggestion": "💡 强烈推荐集成 | 🤖 AI相关项目 | 📖 可学习其设计模式 | 🔧 社区活跃，易于定制",
+      "url": "https://github.com/openclaw/openclaw"
+    },
+    {
+      "full_name": "nilbuild/developer-roadmap",
+      "stars": 353654,
+      "quality_score": 10.0,
+      "relevance_score": 1.5,
+      "suggestion": "💡 强烈推荐集成 | 📖 可学习其设计模式 | 🔧 社区活跃，易于定制",
+      "url": "https://github.com/nilbuild/developer-roadmap"
+    },
+    {
+      "full_name": "vinta/awesome-python",
+      "stars": 294414,
+      "quality_score": 10.0,
+      "relevance_score": 1.5,
+      "suggestion": "💡 强烈推荐集成 | 📖 可学习其设计模式 | 🔧 社区活跃，易于定制",
+      "url": "https://github.com/vinta/awesome-python"
+    },
+    {
+      "full_name": "awesome-selfhosted/awesome-selfhosted",
+      "stars": 288231,
+      "quality_score": 10.0,
+      "relevance_score": 0.0,
+      "suggestion": "💡 强烈推荐集成 | 📖 可学习其设计模式 | 🔧 社区活跃，易于定制",
+      "url": "https://github.com/awesome-selfhosted/awesome-selfhosted"
+    },
+    {
+      "full_name": "trimstray/the-book-of-secret-knowledge",
+      "stars": 217375,
+      "quality_score": 10.0,
+      "relevance_score": 4.5,
+      "suggestion": "💡 强烈推荐集成 | 📖 可学习其设计模式 | 🔧 社区活跃，易于定制",
+      "url": "https://github.com/trimstray/the-book-of-secret-knowledge"
+    },
+    {
+      "full_name": "n8n-io/n8n",
+      "stars": 185611,
+      "quality_score": 10.0,
+      "relevance_score": 4.5,
+      "suggestion": "💡 强烈推荐集成 | 🤖 AI相关项目 | 📖 可学习其设计模式 | 🔧 社区活跃，易于定制",
+      "url": "https://github.com/n8n-io/n8n"
+    },
+    {
+      "full_name": "Significant-Gravitas/AutoGPT",
+      "stars": 183763,
+      "quality_score": 10.0,
+      "relevance_score": 9.0,
+      "suggestion": "💡 强烈推荐集成 | 🤖 AI相关项目 | 📖 可学习其设计模式 | 🔧 社区活跃，易于定制",
+      "url": "https://github.com/Significant-Gravitas/AutoGPT"
+    },
+    {
+      "full_name": "avelino/awesome-go",
+      "stars": 171021,
+      "quality_score": 10.0,
+      "relevance_score": 0.0,
+      "suggestion": "💡 强烈推荐集成 | 📖 可学习其设计模式 | 🔧 社区活跃，易于定制",
+      "url": "https://github.com/avelino/awesome-go"
+    }
+  ]
+}
