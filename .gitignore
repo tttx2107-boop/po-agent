@@ -52,6 +52,11 @@ htmlcov/
 *.db-shm
 *.sqlite
 
+# Generated data (GitHub monitor)
+data/github_repos.json
+data/github_reports/
+data/ideas.json
+
 # OS
 .DS_Store
 Thumbs.db

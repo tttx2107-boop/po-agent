@@ -1,0 +1,62 @@
+{
+  "entries": [
+    {
+      "id": "b0fb2494",
+      "content": "Agent需要明确的工具定义和执行策略。使用ReAct模式效果良好。 后续行动: 可以尝试添加规划器模块",
+      "title": "研究基于LLM的自主Agent框架",
+      "type": "lesson",
+      "category": "general",
+      "industry": "",
+      "source_type": "idea_review",
+      "source_id": "idea_miner_test",
+      "source_content": "研究基于LLM的自主Agent框架",
+      "tags": [
+        "AI",
+        "Agent",
+        "LLM"
+      ],
+      "domain_tags": [],
+      "usage_count": 0,
+      "last_used": "",
+      "usefulness_score": 0.0,
+      "extraction_confidence": 0.5,
+      "is_validated": false,
+      "related_ideas": [
+        "idea_miner_test"
+      ],
+      "related_knowledge": [],
+      "created_at": "2026-04-26T15:15:12.123810",
+      "updated_at": "2026-04-26T15:15:12.123810",
+      "created_by": "system"
+    },
+    {
+      "id": "538812e4",
+      "content": "Agent需要明确的工具定义和执行策略。使用ReAct模式效果良好。",
+      "title": "执行模式: 研究基于LLM的自主Agent框架...",
+      "type": "pattern",
+      "category": "general",
+      "industry": "",
+      "source_type": "idea_review",
+      "source_id": "idea_miner_test",
+      "source_content": "",
+      "tags": [
+        "执行模式",
+        "经验",
+        "AI",
+        "Agent"
+      ],
+      "domain_tags": [],
+      "usage_count": 0,
+      "last_used": "",
+      "usefulness_score": 0.0,
+      "extraction_confidence": 0.6,
+      "is_validated": false,
+      "related_ideas": [],
+      "related_knowledge": [],
+      "created_at": "2026-04-26T15:15:12.123978",
+      "updated_at": "2026-04-26T15:15:12.123978",
+      "created_by": "system"
+    }
+  ],
+  "updated_at": "2026-04-26T15:15:12.123997"
+}
