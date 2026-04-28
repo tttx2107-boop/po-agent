@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消防安全标注系统</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1>🔥 消防安全标注系统</h1>
+                <span class="subtitle">Multimodal Knowledge Graph Annotation</span>
+            </div>
+            <div class="header-right">
+                <span class="status-indicator" id="saveStatus">已保存</span>
+                <button class="btn btn-secondary" onclick="exportAnnotations()">导出</button>
+                <button class="btn btn-primary" onclick="submitAnnotations()">提交审核</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Panel - Image Viewer -->
+            <div class="left-panel">
+                <div class="image-toolbar">
+                    <div class="tool-group">
+                        <button class="tool-btn active" id="selectTool" onclick="setTool('select')" title="选择">
+                            <span>⬚</span>
+                        </button>
+                        <button class="tool-btn" id="boxTool" onclick="setTool('box')" title="绘制边界框">
+                            <span>□</span>
+                        </button>
+                        <button class="tool-btn" id="panTool" onclick="setTool('pan')" title="平移">
+                            <span>✋</span>
+                        </button>
+                    </div>
+                    <div class="tool-group">
+                        <button class="tool-btn" onclick="zoomIn()" title="放大">+</button>
+                        <span class="zoom-level" id="zoomLevel">100%</span>
+                        <button class="tool-btn" onclick="zoomOut()" title="缩小">−</button>
+                        <button class="tool-btn" onclick="resetZoom()" title="重置">⟲</button>
+                    </div>
+                </div>
+
+                <div class="canvas-container" id="canvasContainer">
+                    <canvas id="annotationCanvas"></canvas>
+                    <canvas id="interactionCanvas"></canvas>
+                </div>
+
+                <!-- OCR Panel -->
+                <div class="ocr-panel" id="ocrPanel">
+                    <div class="panel-header">
+                        <h3>📝 OCR 识别文本</h3>
+                        <button class="collapse-btn" onclick="toggleOcrPanel()">▼</button>
+                    </div>
+                    <div class="ocr-content" id="ocrContent">
+                        <p class="ocr-placeholder">点击图像中的文字区域查看OCR结果</p>
+                    </div>
+                </div>
+
+                <!-- Image Navigation -->
+                <div class="image-nav">
+                    <button class="nav-btn" onclick="prevImage()">◀ 上一张</button>
+                    <span class="image-counter" id="imageCounter">1 / 10</span>
+                    <button class="nav-btn" onclick="nextImage()">下一张 ▶</button>
+                </div>
+            </div>
+
+            <!-- Right Panel - Annotation Form -->
+            <div class="right-panel">
+                <div class="form-section">
+                    <h2>📋 对象标注</h2>
+                    
+                    <!-- Object Type Selector -->
+                    <div class="form-group">
+                        <label>对象类型</label>
+                        <select id="objectType" class="form-control">
+                            <option value="">-- 选择类型 --</option>
+                            <optgroup label="灭火设备">
+                                <option value="fire_extinguisher">🧯 灭火器</option>
+                                <option value="hydrant">🚿 消火栓</option>
+                                <option value="sprinkler">💦 喷淋头</option>
+                                <option value="fire_barrel">🪣 灭火桶</option>
+                            </optgroup>
+                            <optgroup label="疏散设施">
+                                <option value="exit_sign">🚪 疏散标志</option>
+                                <option value="emergency_exit">🚨 紧急出口</option>
+                                <option value="fire_door">🔒 防火门</option>
+                                <option value="escape_route">➡️ 疏散路线</option>
+                            </optgroup>
+                            <optgroup label="探测报警">
+                                <option value="fire_detector">📡 火灾探测器</option>
+                                <option value="smoke_detector">💨 烟雾探测器</option>
+                                <option value="fire_alarm">🔔 火灾报警器</option>
+                            </optgroup>
+                            <optgroup label="其他设施">
+                                <option value="fire_pump">⚙️ 消防泵</option>
+                                <option value="control_panel">🎛️ 控制面板</option>
+                                <option value="fire_hose">🧯 消防水带</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <!-- Attributes Editor -->
+                    <div class="form-group">
+                        <label>属性编辑</label>
+                        <div class="attributes-grid" id="attributesGrid">
+                            <div class="attr-item">
+                                <span class="attr-label">状态</span>
+                                <select id="attrStatus" class="form-control">
+                                    <option value="normal">正常</option>
+                                    <option value="damaged">损坏</option>
+                                    <option value="blocked">遮挡</option>
+                                    <option value="expired">过期</option>
+                                </select>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-label">可见性</span>
+                                <select id="attrVisibility" class="form-control">
+                                    <option value="visible">可见</option>
+                                    <option value="partial">部分可见</option>
+                                    <option value="hidden">隐藏</option>
+                                </select>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-label">颜色</span>
+                                <input type="text" id="attrColor" class="form-control" placeholder="如: 红色">
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-label">编号</span>
+                                <input type="text" id="attrId" class="form-control" placeholder="设备编号">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Custom Attributes -->
+                    <div class="form-group">
+                        <label>自定义属性</label>
+                        <div class="custom-attrs" id="customAttrs">
+                            <div class="custom-attr-row">
+                                <input type="text" class="form-control attr-key" placeholder="属性名">
+                                <input type="text" class="form-control attr-value" placeholder="属性值">
+                                <button class="btn-icon" onclick="removeCustomAttr(this)">✕</button>
+                            </div>
+                        </div>
+                        <button class="btn btn-small" onclick="addCustomAttr()">+ 添加属性</button>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-group">
+                        <label>描述说明</label>
+                        <textarea id="objectDescription" class="form-control" rows="3" placeholder="添加对象描述..."></textarea>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                        <button class="btn btn-secondary" onclick="clearForm()">清空</button>
+                        <button class="btn btn-primary" onclick="saveAnnotation()">保存</button>
+                        <button class="btn btn-success" onclick="verifyAnnotation()">✓ 验证</button>
+                    </div>
+                </div>
+
+                <!-- Relationship Creator -->
+                <div class="form-section">
+                    <h2>🔗 关系标注</h2>
+                    <div class="relationship-creator">
+                        <div class="rel-from">
+                            <label>源对象</label>
+                            <select id="relSource" class="form-control">
+                                <option value="">-- 选择 --</option>
+                            </select>
+                        </div>
+                        <div class="rel-type">
+                            <label>关系类型</label>
+                            <select id="relType" class="form-control">
+                                <option value="">-- 选择 --</option>
+                                <option value="near">靠近</option>
+                                <option value="connected_to">连接</option>
+                                <option value="part_of">组成</option>
+                                <option value="covers">覆盖</option>
+                                <option value="leads_to">通向</option>
+                                <option value="monitors">监控</option>
+                            </select>
+                        </div>
+                        <div class="rel-to">
+                            <label>目标对象</label>
+                            <select id="relTarget" class="form-control">
+                                <option value="">-- 选择 --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-full" onclick="addRelationship()">添加关系</button>
+                    
+                    <!-- Relationship List -->
+                    <div class="relationship-list" id="relationshipList">
+                        <p class="empty-state">暂无关系标注</p>
+                    </div>
+                </div>
+
+                <!-- Annotation List -->
+                <div class="form-section">
+                    <h2>📑 已标注对象</h2>
+                    <div class="annotation-list" id="annotationList">
+                        <p class="empty-state">暂无标注</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <h3>确认操作</h3>
+            <p id="modalMessage">确定要执行此操作吗？</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="confirmAction()">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span id="toastMessage">提示信息</span>
+    </div>
+
+    <script src="annotation.js"></script>
+</body>
+</html>

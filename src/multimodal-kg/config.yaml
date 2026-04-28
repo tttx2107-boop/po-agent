@@ -1,0 +1,88 @@
+# 多模态知识图谱系统配置
+app:
+  name: "Multimodal Knowledge Graph System"
+  version: "1.0.0"
+  debug: true
+  host: "0.0.0.0"
+  port: 8000
+
+storage:
+  base_path: "/root/multimodal-kg/data"
+  images:
+    raw: "images/raw"
+    annotated: "images/annotated"
+    thumbnails: "images/thumbnails"
+  annotations:
+    pending: "annotations/pending"
+    verified: "annotations/verified"
+    corrected: "annotations/corrected"
+  kg:
+    text: "kg/text"
+    image: "kg/image"
+    multimodal: "kg/multimodal"
+
+database:
+  # SQLite for simplicity, can migrate to PostgreSQL
+  type: "sqlite"
+  path: "/root/multimodal-kg/data/knowledge_graph.db"
+
+vector_db:
+  # ChromaDB for embedding storage
+  enabled: true
+  persist_dir: "/root/multimodal-kg/data/chroma_db"
+
+models:
+  # AI model settings
+  llm:
+    provider: "openai"  # openai, anthropic, local
+    model: "gpt-4o"
+    api_key: "${OPENAI_API_KEY}"
+    base_url: null
+  
+  # Vision model for image understanding
+  vision:
+    provider: "openai"  # openai, anthropic, local
+    model: "gpt-4o"
+  
+  # Object detection model
+  detection:
+    enabled: true
+    model_name: "yolov8"
+    model_path: "yolov8n.pt"
+  
+  # OCR model
+  ocr:
+    enabled: true
+    engine: "paddleocr"  # paddleocr, easyocr
+    lang: "chinese"
+
+annotation:
+  # Confidence thresholds
+  auto_annotate_confidence: 0.8
+  require_human_review: 0.7
+  low_confidence_threshold: 0.5
+  
+  # Learning settings
+  min_feedback_ratio: 0.2  # 20% of new data needs feedback before model update
+  feedback_batch_size: 50
+
+kg:
+  # Text KG settings (from paper-to-knowledge-graph)
+  max_nodes_per_graph: 50
+  merge_threshold: 0.85  # Entity merge similarity threshold
+  
+  # Fusion settings
+  cross_modal_match_threshold: 0.75
+  conflict_detection_enabled: true
+
+visualization:
+  default_format: "mermaid"
+  supported_formats: ["mermaid", "d3", "echarts", "plotly", "graphviz"]
+  theme: "default"
+  max_display_nodes: 30
+
+logging:
+  level: "INFO"
+  file: "/root/multimodal-kg/logs/app.log"
+  max_size: "100MB"
+  backup_count: 5

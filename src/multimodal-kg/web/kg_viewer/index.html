@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知识图谱可视化 - Multimodal KG</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/d3-force@3"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --bg-light: #f8f9fa;
+            --text-dark: #2c3e50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .main-container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .sidebar-header {
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+        }
+        
+        .sidebar-header h5 {
+            margin: 0;
+            font-size: 1rem;
+        }
+        
+        .sidebar-search {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+        
+        .kg-list-item {
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        
+        .kg-list-item:hover {
+            background: #f0f0f0;
+            border-color: var(--secondary);
+        }
+        
+        .kg-list-item.active {
+            background: #e3f2fd;
+            border-color: var(--secondary);
+        }
+        
+        .kg-list-item h6 {
+            margin: 0 0 0.25rem 0;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+        
+        .kg-list-item small {
+            color: #666;
+            font-size: 0.75rem;
+        }
+        
+        /* Main content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* Toolbar */
+        .toolbar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .toolbar-group {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .toolbar-divider {
+            width: 1px;
+            height: 24px;
+            background: #e0e0e0;
+            margin: 0 0.5rem;
+        }
+        
+        /* Visualization area */
+        .viz-container {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            background: #fafafa;
+        }
+        
+        .viz-panel {
+            flex: 1;
+            padding: 1rem;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .viz-mermaid {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        .viz-d3 {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .viz-d3 svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Detail panel */
+        .detail-panel {
+            width: 320px;
+            background: white;
+            border-left: 1px solid #e0e0e0;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .detail-panel.show {
+            display: block;
+        }
+        
+        .detail-header {
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+        
+        .detail-content {
+            padding: 1rem;
+        }
+        
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-section h6 {
+            color: var(--secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        
+        .entity-tag {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: #e3f2fd;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin: 0.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .entity-tag:hover {
+            background: #bbdefb;
+        }
+        
+        .entity-tag.text-entity {
+            background: #e1f5fe;
+            border: 1px solid #01579b;
+        }
+        
+        .entity-tag.image-entity {
+            background: #fff3e0;
+            border: 1px solid #e65100;
+        }
+        
+        .relationship-item {
+            padding: 0.5rem;
+            background: #f5f5f5;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+        
+        .relationship-item .source {
+            color: var(--secondary);
+            font-weight: 500;
+        }
+        
+        .relationship-item .target {
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .relationship-item .type {
+            color: #666;
+            font-style: italic;
+        }
+        
+        /* Buttons */
+        .btn-toolbar {
+            padding: 0.4rem 0.75rem;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        
+        .btn-toolbar:hover {
+            background: #f0f0f0;
+            border-color: #ccc;
+        }
+        
+        .btn-toolbar.active {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+        
+        /* Select */
+        .format-select {
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background: white;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        
+        /* Modal */
+        .modal-content {
+            border-radius: 12px;
+        }
+        
+        .modal-header {
+            background: var(--primary);
+            color: white;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        /* Stats */
+        .stats-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-card {
+            flex: 1;
+            padding: 0.75rem;
+            background: #f5f5f5;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-card .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .stat-card .label {
+            font-size: 0.75rem;
+            color: #666;
+        }
+        
+        /* Loading */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Empty state */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: #999;
+        }
+        
+        .empty-state svg {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+        
+        /* Node colors for D3 */
+        .node-text { fill: #2c3e50; }
+        .node-image { stroke: #e65100; stroke-width: 2px; }
+        
+        .link { stroke: #999; stroke-opacity: 0.6; }
+        .link-label { fill: #666; font-size: 10px; }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h5>📊 知识图谱列表</h5>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" class="form-control" id="kgSearch" placeholder="搜索图谱...">
+            </div>
+            <div class="sidebar-content">
+                <div id="kgList">
+                    <!-- KG items will be loaded here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main content -->
+        <div class="main-content">
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="toolbar-group">
+                    <select class="format-select" id="vizFormat" onchange="changeFormat()">
+                        <option value="mermaid">Mermaid.js</option>
+                        <option value="d3">D3.js 交互</option>
+                    </select>
+                </div>
+                <div class="toolbar-divider"></div>
+                <div class="toolbar-group">
+                    <button class="btn-toolbar" onclick="zoomIn()" title="放大">🔍+</button>
+                    <button class="btn-toolbar" onclick="zoomOut()" title="缩小">🔍-</button>
+                    <button class="btn-toolbar" onclick="resetView()" title="重置">↺</button>
+                </div>
+                <div class="toolbar-divider"></div>
+                <div class="toolbar-group">
+                    <button class="btn-toolbar" onclick="toggleLabels()" id="labelBtn" title="切换标签">🏷️ 标签</button>
+                    <button class="btn-toolbar" onclick="exportSVG()" title="导出SVG">📥 导出</button>
+                </div>
+                <div class="toolbar-divider"></div>
+                <div class="toolbar-group">
+                    <button class="btn-toolbar" onclick="refreshKG()" title="刷新">🔄 刷新</button>
+                </div>
+            </div>
+            
+            <!-- Visualization area -->
+            <div class="viz-container">
+                <div class="viz-panel">
+                    <div class="viz-mermaid" id="mermaidContainer">
+                        <div class="empty-state" id="emptyState">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            <p>选择左侧知识图谱开始可视化</p>
+                        </div>
+                        <div class="mermaid" id="mermaidCode" style="display:none;"></div>
+                    </div>
+                    <div class="viz-d3" id="d3Container" style="display:none;"></div>
+                </div>
+                
+                <!-- Detail panel -->
+                <div class="detail-panel" id="detailPanel">
+                    <div class="detail-header">
+                        <h6 id="detailTitle">图谱详情</h6>
+                    </div>
+                    <div class="detail-content">
+                        <div class="stats-row">
+                            <div class="stat-card">
+                                <div class="value" id="entityCount">0</div>
+                                <div class="label">实体</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="value" id="relCount">0</div>
+                                <div class="label">关系</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h6>📌 实体</h6>
+                            <div id="entityList"></div>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h6>🔗 关系</h6>
+                            <div id="relList"></div>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h6>📊 质量指标</h6>
+                            <div id="qualityMetrics"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display:none;">
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+        // State
+        let currentKG = null;
+        let currentFormat = 'mermaid';
+        let showLabels = true;
+        let mermaidInitialized = false;
+        
+        // API Base
+        const API_BASE = '/api';
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadKGList();
+            
+            // Initialize Mermaid
+            mermaid.initialize({
+                startOnLoad: false,
+                theme: 'base',
+                themeVariables: {
+                    fontSize: '14px',
+                    primaryColor: '#e1f5ff',
+                    primaryTextColor: '#01579b',
+                    primaryBorderColor: '#01579b',
+                    lineColor: '#666'
+                }
+            });
+            mermaidInitialized = true;
+            
+            // Search functionality
+            document.getElementById('kgSearch').addEventListener('input', filterKGList);
+        });
+        
+        // Load KG list
+        async function loadKGList() {
+            try {
+                const resp = await fetch(`${API_BASE}/kg`);
+                const data = await resp.json();
+                
+                const kgList = document.getElementById('kgList');
+                
+                if (data.items && data.items.length > 0) {
+                    kgList.innerHTML = data.items.map(kg => `
+                        <div class="kg-list-item" onclick="selectKG('${kg.id}')" data-id="${kg.id}" data-name="${kg.name.toLowerCase()}">
+                            <h6>${kg.name}</h6>
+                            <small>${kg.entity_count} 实体 | ${kg.relationship_count} 关系</small>
+                        </div>
+                    `).join('');
+                } else {
+                    kgList.innerHTML = '<p class="text-muted p-2">暂无知识图谱</p>';
+                }
+            } catch (err) {
+                console.error('Failed to load KG list:', err);
+                document.getElementById('kgList').innerHTML = '<p class="text-danger p-2">加载失败</p>';
+            }
+        }
+        
+        // Filter KG list
+        function filterKGList() {
+            const query = document.getElementById('kgSearch').value.toLowerCase();
+            const items = document.querySelectorAll('.kg-list-item');
+            
+            items.forEach(item => {
+                const name = item.dataset.name;
+                if (name.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+        
+        // Select KG
+        async function selectKG(kgId) {
+            // Update active state
+            document.querySelectorAll('.kg-list-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`[data-id="${kgId}"]`).classList.add('active');
+            
+            // Load KG
+            showLoading();
+            
+            try {
+                const [kgResp, entitiesResp, relsResp] = await Promise.all([
+                    fetch(`${API_BASE}/kg/${kgId}`),
+                    fetch(`${API_BASE}/kg/${kgId}/entities`),
+                    fetch(`${API_BASE}/kg/${kgId}/relationships`)
+                ]);
+                
+                const kg = await kgResp.json();
+                const entities = await entitiesResp.json();
+                const relationships = await relsResp.json();
+                
+                currentKG = {
+                    ...kg,
+                    entities: entities.items || [],
+                    relationships: relationships.items || []
+                };
+                
+                renderVisualization();
+                updateDetailPanel();
+                
+                document.getElementById('detailPanel').classList.add('show');
+            } catch (err) {
+                console.error('Failed to load KG:', err);
+                alert('加载失败');
+            }
+            
+            hideLoading();
+        }
+        
+        // Render visualization
+        async function renderVisualization() {
+            if (!currentKG) return;
+            
+            const mermaidContainer = document.getElementById('mermaidContainer');
+            const mermaidCode = document.getElementById('mermaidCode');
+            const d3Container = document.getElementById('d3Container');
+            
+            if (currentFormat === 'mermaid') {
+                d3Container.style.display = 'none';
+                mermaidContainer.style.display = 'flex';
+                
+                // Generate Mermaid code
+                const mermaidCodeStr = generateMermaidCode(currentKG);
+                mermaidCode.textContent = mermaidCodeStr;
+                
+                // Render
+                try {
+                    const { svg } = await mermaid.render('mermaidSvg', mermaidCodeStr);
+                    mermaidCode.innerHTML = svg;
+                    document.getElementById('emptyState').style.display = 'none';
+                    mermaidCode.style.display = 'block';
+                } catch (err) {
+                    console.error('Mermaid render error:', err);
+                    mermaidCode.innerHTML = `<pre class="text-danger">渲染错误: ${err.message}</pre>`;
+                }
+            } else {
+                mermaidContainer.style.display = 'none';
+                d3Container.style.display = 'block';
+                renderD3(currentKG);
+            }
+        }
+        
+        // Generate Mermaid code
+        function generateMermaidCode(kg) {
+            const lines = [
+                '%%{init: {\'theme\': \'base\', \'themeVariables\': {\'fontSize\': \'14px\'}}}%%',
+                'flowchart TB'
+            ];
+            
+            const textEntities = kg.entities.filter(e => e.entity_type === 'text');
+            const imageEntities = kg.entities.filter(e => e.entity_type === 'image');
+            
+            // Text entities
+            if (textEntities.length > 0) {
+                lines.push('    subgraph text_entities["🟦 文本实体"]');
+                textEntities.slice(0, 15).forEach(e => {
+                    const safeId = e.id.replace(/-/g, '_');
+                    lines.push(`        ${safeId}["${e.name}"]`);
+                });
+                lines.push('    end');
+            }
+            
+            // Image entities
+            if (imageEntities.length > 0) {
+                lines.push('    subgraph image_entities["🟧 图像实体"]');
+                imageEntities.slice(0, 15).forEach(e => {
+                    const safeId = e.id.replace(/-/g, '_');
+                    lines.push(`        ${safeId}["📷 ${e.name}"]`);
+                });
+                lines.push('    end');
+            }
+            
+            // Relationships
+            kg.relationships.slice(0, 30).forEach(rel => {
+                const source = rel.source_id.replace(/-/g, '_');
+                const target = rel.target_id.replace(/-/g, '_');
+                const relType = rel.relation_type || '关联';
+                const conf = rel.confidence?.toFixed(2) || '1.0';
+                lines.push(`    ${source} -->|"${relType} (${conf})"| ${target}`);
+            });
+            
+            // Styles
+            lines.push('');
+            lines.push('    style text_entities fill:#e1f5ff,stroke:#01579b');
+            lines.push('    style image_entities fill:#fff3e0,stroke:#e65100');
+            
+            return lines.join('\n');
+        }
+        
+        // Render D3
+        function renderD3(kg) {
+            const container = document.getElementById('d3Container');
+            container.innerHTML = '';
+            
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            
+            const svg = d3.select(container)
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+            
+            // Create nodes and links
+            const nodes = kg.entities.map(e => ({
+                id: e.id,
+                name: e.name,
+                type: e.entity_type || 'text',
+                cluster: e.cluster
+            }));
+            
+            const links = kg.relationships.map(r => ({
+                source: r.source_id,
+                target: r.target_id,
+                type: r.relation_type,
+                confidence: r.confidence
+            }));
+            
+            // Color scale
+            const colorScale = {
+                text: '#01579b',
+                image: '#e65100',
+                default: '#666'
+            };
+            
+            // Create force simulation
+            const simulation = d3.forceSimulation(nodes)
+                .force('link', d3.forceLink(links).id(d => d.id).distance(100))
+                .force('charge', d3.forceManyBody().strength(-300))
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .force('collision', d3.forceCollide().radius(40));
+            
+            // Draw links
+            const link = svg.append('g')
+                .selectAll('line')
+                .data(links)
+                .join('line')
+                .attr('class', 'link')
+                .attr('stroke', '#999')
+                .attr('stroke-opacity', 0.6)
+                .attr('stroke-width', d => Math.max(1, d.confidence || 1));
+            
+            // Draw nodes
+            const node = svg.append('g')
+                .selectAll('g')
+                .data(nodes)
+                .join('g')
+                .call(d3.drag()
+                    .on('start', dragstarted)
+                    .on('drag', dragged)
+                    .on('end', dragended));
+            
+            node.append('circle')
+                .attr('r', 20)
+                .attr('fill', d => d.type === 'image' ? '#fff3e0' : '#e1f5ff')
+                .attr('stroke', d => colorScale[d.type] || colorScale.default)
+                .attr('stroke-width', 2);
+            
+            if (showLabels) {
+                node.append('text')
+                    .text(d => d.name.substring(0, 10))
+                    .attr('class', 'node-label')
+                    .attr('text-anchor', 'middle')
+                    .attr('dy', 35)
+                    .style('font-size', '12px')
+                    .style('fill', '#333');
+            }
+            
+            // Emoji for image nodes
+            node.filter(d => d.type === 'image')
+                .append('text')
+                .text('📷')
+                .attr('text-anchor', 'middle')
+                .attr('dy', 5)
+                .style('font-size', '14px');
+            
+            // Tick
+            simulation.on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+                
+                node.attr('transform', d => `translate(${d.x},${d.y})`);
+            });
+            
+            function dragstarted(event) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                event.subject.fx = event.subject.x;
+                event.subject.fy = event.subject.y;
+            }
+            
+            function dragged(event) {
+                event.subject.fx = event.x;
+                event.subject.fy = event.y;
+            }
+            
+            function dragended(event) {
+                if (!event.active) simulation.alphaTarget(0);
+                event.subject.fx = null;
+                event.subject.fy = null;
+            }
+        }
+        
+        // Update detail panel
+        function updateDetailPanel() {
+            if (!currentKG) return;
+            
+            document.getElementById('detailTitle').textContent = currentKG.name;
+            document.getElementById('entityCount').textContent = currentKG.entity_count || currentKG.entities?.length || 0;
+            document.getElementById('relCount').textContent = currentKG.relationship_count || currentKG.relationships?.length || 0;
+            
+            // Entities
+            const entityList = document.getElementById('entityList');
+            const entities = currentKG.entities || [];
+            
+            if (entities.length > 0) {
+                entityList.innerHTML = entities.slice(0, 20).map(e => `
+                    <span class="entity-tag ${e.entity_type === 'image' ? 'image-entity' : 'text-entity'}" 
+                          onclick="highlightEntity('${e.id}')">${e.name}</span>
+                `).join('');
+                
+                if (entities.length > 20) {
+                    entityList.innerHTML += `<small class="d-block mt-1 text-muted">还有 ${entities.length - 20} 个实体...</small>`;
+                }
+            } else {
+                entityList.innerHTML = '<small class="text-muted">暂无实体</small>';
+            }
+            
+            // Relationships
+            const relList = document.getElementById('relList');
+            const relationships = currentKG.relationships || [];
+            
+            if (relationships.length > 0) {
+                relList.innerHTML = relationships.slice(0, 10).map(r => `
+                    <div class="relationship-item">
+                        <span class="source">${r.source_id}</span>
+                        <span class="type">[${r.relation_type}]</span>
+                        <span class="target">${r.target_id}</span>
+                    </div>
+                `).join('');
+                
+                if (relationships.length > 10) {
+                    relList.innerHTML += `<small class="d-block mt-1 text-muted">还有 ${relationships.length - 10} 个关系...</small>`;
+                }
+            } else {
+                relList.innerHTML = '<small class="text-muted">暂无关系</small>';
+            }
+            
+            // Quality metrics
+            const quality = currentKG.quality_score;
+            document.getElementById('qualityMetrics').innerHTML = quality ? `
+                <div class="stat-card w-100">
+                    <div class="value">${(quality * 100).toFixed(0)}%</div>
+                    <div class="label">质量评分</div>
+                </div>
+            ` : '<small class="text-muted">暂无质量数据</small>';
+        }
+        
+        // Format change
+        function changeFormat() {
+            currentFormat = document.getElementById('vizFormat').value;
+            renderVisualization();
+        }
+        
+        // Zoom
+        let currentZoom = 1;
+        
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom + 0.2, 3);
+            applyZoom();
+        }
+        
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom - 0.2, 0.3);
+            applyZoom();
+        }
+        
+        function resetView() {
+            currentZoom = 1;
+            applyZoom();
+        }
+        
+        function applyZoom() {
+            const svg = document.querySelector('#d3Container svg');
+            if (svg) {
+                svg.style.transform = `scale(${currentZoom})`;
+                svg.style.transformOrigin = 'center center';
+            }
+        }
+        
+        // Toggle labels
+        function toggleLabels() {
+            showLabels = !showLabels;
+            document.getElementById('labelBtn').classList.toggle('active', showLabels);
+            renderVisualization();
+        }
+        
+        // Export
+        function exportSVG() {
+            const svg = document.querySelector('#d3Container svg');
+            if (svg) {
+                const svgData = new XMLSerializer().serializeToString(svg);
+                const blob = new Blob([svgData], { type: 'image/svg+xml' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `kg_${currentKG?.id || 'export'}.svg`;
+                a.click();
+            }
+        }
+        
+        // Highlight entity
+        function highlightEntity(entityId) {
+            console.log('Highlight:', entityId);
+            // Could implement node highlighting
+        }
+        
+        // Refresh
+        async function refreshKG() {
+            await loadKGList();
+            if (currentKG) {
+                await selectKG(currentKG.id);
+            }
+        }
+        
+        // Loading
+        function showLoading() {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+        
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
